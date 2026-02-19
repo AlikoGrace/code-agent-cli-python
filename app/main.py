@@ -29,7 +29,26 @@ def main():
     chat = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": args.p}],
-        max_tokens=10,
+        max_tokens=300,
+        tools=[
+            {
+                "type": "function",
+                "function": {
+                    "name": "read",
+                    "description": "Read and return the contents of a file",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "file_path": {
+                                "type": "string",
+                                "description": "The path to the file to read",
+                            }
+                        },
+                        "required": ["file_path"]
+                    },
+                },
+            }
+        ],
         
     )
 
