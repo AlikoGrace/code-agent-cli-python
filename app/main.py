@@ -59,18 +59,17 @@ def main():
     if not chat.choices or len(chat.choices) == 0:
         raise RuntimeError("no choices in response")
     
-    msg=chat.choices[0]
-     # for debugging purposes
-    print("TOOL CALLS:", msg.tool_calls, file=sys.stderr)
+    msg=chat.choices[0].message
+    
     if msg.tools_calls:
-        tool_call=msg.tool_call[0]
+        tool_call=msg.tool_calls[0]
         tool_name=tool_call.function.name
         tool_args=json.loads(tool_call.function.arguments)
 
 
         # to executing toolcall\
         if tool_name=="read":
-            path=tool_args['path']
+            path=tool_args['file_path']
             
             with open(path, "r", encoding="utf-8") as f:
              results=f.read()
