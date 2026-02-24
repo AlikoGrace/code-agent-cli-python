@@ -34,8 +34,23 @@ tools=[
                         "required": ["file_path"]
                     },
                 },
+            },
+            {
+               "type":"function",
+               "function":{
+                  "name":"write",
+                  "description":"Write content to a file(create or ovewrite)",
+                  "parameters":{
+                     "type":"object",
+                     "properties":{
+                        "file_path":{"type":"string","description":"The path to the file to write"},
+                     "content":{"type":"string","description":"The content to wreite to the file"},
+                  },
+                  "required":["file_path","content"],
+               },
+               }
             }
-        ]
+]
 
 def assistant_msg_to_dict(msg):
     out={"role":"assistant", "content":msg.content}
