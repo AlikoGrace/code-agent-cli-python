@@ -124,9 +124,28 @@ def main():
             path=tool_args['file_path']
             with open(path, "r", encoding="utf-8") as f:
              result=f.read()
+
+        elif tool_name=="write":
+          file_path=tool_args['file_path']
+          content=tool_args["content"]
+
+          REPO_ROOT=os.getcwd()
+          full_path =os.path.join(REPO_ROOT,file_path)
+
+           # safety: prevent writing outside repo
+          if not full_path.startswith(REPO_ROOT + os.sep):
+            raise RuntimeError("Invalid file path") 
+        
+          os.mkdir(os.path.dirname(full_path),exist_ok=True)
+
+          with open(full_path,"w",encoding="utf-8")as f:
+            f.write(content)
+          result="OK"   
         else:
             raise RuntimeError(f"Unknowwn tool: {tool_name}")   
-        messages.append({
+       
+       
+    messages.append({
             "role":"tool",
             "tool_call_id":tc.id,
             "content":result,
